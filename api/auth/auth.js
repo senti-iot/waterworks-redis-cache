@@ -1,6 +1,8 @@
-const express = require('express')
+import express from 'express'
+import { authClient } from '../../server.js'
+// const express = require('express')
 const authRouter = express.Router()
-const { authClient } = require('../../server')
+// const { authClient } = require('../../server')
 
 authRouter.all('*', async (req, res, next) => {
 
@@ -16,5 +18,4 @@ authRouter.all('*', async (req, res, next) => {
 	next()
 })
 
-
-module.exports = authRouter
+export default authRouter

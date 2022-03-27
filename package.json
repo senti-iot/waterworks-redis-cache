@@ -7,6 +7,7 @@
 	"scripts": {
 		"test": "echo 'No Tests'"
 	},
+	"type": "module",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/senti-iot/senti-service.git"
@@ -33,6 +34,7 @@
 	},
 	"homepage": "https://github.com/senti-iot/senti-service#readme",
 	"dependencies": {
+		"@node-redis/json": "^1.0.2",
 		"apisauce": "^2.0.1",
 		"cli-table3": "^0.6.0",
 		"cors": "^2.8.5",
@@ -42,10 +44,17 @@
 		"helmet": "^4.1.0",
 		"moment": "^2.27.0",
 		"mqtt": "^4.2.1",
-		"senti-apicore": "^0.0.61"
+		"node-cron": "^3.0.0",
+		"redis": "^4.0.4",
+		"senti-apicore": "^0.0.61",
+		"sha2": "^1.0.2"
 	},
 	"devDependencies": {
+		"@babel/cli": "^7.17.6",
+		"@babel/core": "^7.17.8",
 		"@babel/eslint-parser": "^7.17.0",
+		"@babel/preset-env": "^7.16.11",
+		"babel-plugin-module-resolver": "^4.1.0",
 		"eslint": "^8.11.0",
 		"eslint-config-google": "^0.14.0"
 	}

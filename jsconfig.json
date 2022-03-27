@@ -1,0 +1,11 @@
+{
+	"compilerOptions": {
+		"module": "ES2020",
+		"moduleResolution": "Node",
+		"sourceMap": true,
+		"baseUrl": "./",
+		"allowSyntheticDefaultImports": true,
+		"noImplicitAny": false
+	},
+	"exclude": ["node_modules", "**/node_modules/*"]
+}
