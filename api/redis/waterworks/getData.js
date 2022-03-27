@@ -1,6 +1,7 @@
 import express from 'express'
 import { rClient } from '../../../server.js'
-// const express = require('express')
+import SHA2 from 'sha2'
+
 const router = express.Router()
 // const { authClient } = require('../../server')
 
@@ -25,5 +26,26 @@ router.post('/get-data', async (req, res, next) => {
 	res.status(200).json(data)
 })
 
+router.post('/usage', async (req, res, next) => {
+	let orgId = req.body.orgId
+	let uuids = req.body.uuids
+	let period = req.body.period
+	console.log(period)
+	/**
+	  * Create key
+	  */
+	//Get a string of the period
+	let pString = period.from.toString() + period.to.toString()
+	console.log(pString)
+	//Get the string of uuids from the devices
+	let dString = uuids.join('')
+
+	//Generate the string
+	let fString = orgId + dString + pString
+	let shaString = SHA2['SHA-256'](fString).toString('hex')
+	let result = await rClient.jsonGet(shaString)
+	console.log(result)
+	res.status(200).json(result)
+})
 
 export default router

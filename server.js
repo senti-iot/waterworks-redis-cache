@@ -59,6 +59,7 @@ export const rClient = new client()
 //---Start the express server---------------------------------------------------
 import printRoutes from './lib/printRoutes.js'
 import getData from './lib/redis/waterworks/usage.js'
+import { runOnceCron } from './lib/cron/cron.js'
 // var printRoutes = require('./lib/printRoutes')
 
 const startServer = async () => {
@@ -66,7 +67,10 @@ const startServer = async () => {
 	// const appDir = dirname(require.main.filename);
 	printRoutes(app)
 	await rClient.connect()
-	await getData()
+	// await getData()
+
+	runOnceCron()
+
 	app.listen(port, () => {
 		console.log('Senti Service started on port', port)
 	}).on('error', (err) => {
