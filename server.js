@@ -49,8 +49,8 @@ import running from './api/index.js'
 import wsData from './api/redis/waterworks/getData.js'
 // console.log(auth)
 // // const auth = require('./api/auth/auth')
-app.use([running, wsData])
-
+app.use([wsData])
+app.use([running])
 //Redis
 import client from "./lib/redis/redisCon.js"
 console.log(await client)
