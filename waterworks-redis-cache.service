@@ -1,13 +1,13 @@
 [Unit]
 # senti-service.service
 Description=Senti template
-Documentation=https://github.com/senti-iot/senti-service/blob/master/README.md
+Documentation=https://github.com/senti-iot/waterworks-redis-cache/blob/master/README.md
 # After=network.target
 
 [Service]
-WorkingDirectory=/srv/nodejs/senti/services/template/production
+WorkingDirectory=/srv/nodejs/senti/services/waterworks-redis-cache/production
 ExecStart=/usr/local/bin/node server.js
-Environment=NODE_PORT=3007
+Environment=NODE_PORT=3063
 Environment=NODE_ENV=production
 Type=simple
 Restart=always

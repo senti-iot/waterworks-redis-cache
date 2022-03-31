@@ -1,6 +1,7 @@
 import express from 'express'
 import { rClient } from '../../../server.js'
 import SHA2 from 'sha2'
+import { execCronUsage } from '../../../lib/cron/waterworks.js'
 
 const router = express.Router()
 // const { authClient } = require('../../server')
@@ -19,33 +20,38 @@ const router = express.Router()
 // 	next()
 // })
 
-router.post('/get-data', async (req, res, next) => {
-	let data = await rClient.get('data')
-	let all = await rClient.getAll();
-	console.log(data, all)
-	res.status(200).json(data)
-})
+// router.post('/get-data', async (req, res, next) => {
+// 	let data = await rClient.get('data')
+// 	let all = await rClient.getAll();
+// 	console.log(data, all)
+// 	res.status(200).json(data)
+// })
 
 router.post('/usage', async (req, res, next) => {
 	let orgId = req.body.orgId
 	let uuids = req.body.uuids
 	let period = req.body.period
-	console.log(period)
+	// console.log(period)
 	/**
 	  * Create key
 	  */
 	//Get a string of the period
 	let pString = period.from.toString() + period.to.toString()
-	console.log(pString)
 	//Get the string of uuids from the devices
-	let dString = uuids.join('')
+	let dString = uuids? uuids.join('') : ""
 
 	//Generate the string
-	let fString = orgId + dString + pString
+	let fString = orgId + dString + pString + 'usage'
 	let shaString = SHA2['SHA-256'](fString).toString('hex')
 	let result = await rClient.jsonGet(shaString)
-	console.log(result)
-	res.status(200).json(result)
+	if (result === null) {
+		await execCronUsage(uuids, orgId, period)
+		let result = await rClient.jsonGet(shaString)
+		res.status(200).json(result)
+	}
+	else {
+		res.status(200).json(result)
+	}
 })
 
 export default router
