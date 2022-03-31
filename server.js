@@ -35,7 +35,7 @@ export const aclClient = new sentiAclClient(aclBackend)
 
 // API Request Parsers
 
-const port = process.env.NODE_PORT || 3007
+const port = process.env.NODE_PORT
 
 app.use(helmet())
 app.use(express.json())
@@ -44,11 +44,12 @@ app.use(express.urlencoded({ extended: true }))
 app.use(cors())
 
 // API Endpoints
+import running from './api/index.js'
 // import auth from "./api/auth/auth.js"
 import wsData from './api/redis/waterworks/getData.js'
 // console.log(auth)
 // // const auth = require('./api/auth/auth')
-app.use([wsData])
+app.use([running, wsData])
 
 //Redis
 import client from "./lib/redis/redisCon.js"
