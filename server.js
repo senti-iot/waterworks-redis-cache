@@ -53,7 +53,6 @@ app.use([wsData])
 app.use([running])
 //Redis
 import client from "./lib/redis/redisCon.js"
-console.log(await client)
 export const rClient = new client()
 
 
@@ -70,11 +69,12 @@ const startServer = async () => {
 	await rClient.connect()
 	// await getData()
 
-	await runOnceCron()
-	await runCron()
 
-	app.listen(port, () => {
+
+	app.listen(port, async () => {
 		console.log('Senti Service started on port', port)
+		await runOnceCron()
+		await runCron()
 	}).on('error', (err) => {
 		if (err.errno === 'EADDRINUSE') {
 			console.log('Service not started, port ' + port + ' is busy')
