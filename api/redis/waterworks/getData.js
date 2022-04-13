@@ -177,7 +177,35 @@ router.post('/minflow', async (req, res, next) => {
 		res.status(200).json(result)
 	}
 })
+/**
+ * @desc Get water temperature and store it in cache
+ * @param req Request
+ * @param req.body Request body
+ * @param req.body.orgId Org UUID
+ * @param req.body.uuids Device UUIDs
+ * @param req.body.period Data Period
+ * @param req.body.period.from Date from
+ * @param req.body.period.to Date to
+ */
+router.post('/benchmark', async (req, res, next) => {
+	let orgId = req.body.orgId
+	let uuids = req.body.uuids
+	let period = req.body.period
 
+	let shaString = generateKey('benchmark', orgId, uuids, period)
+
+	let result = await rClient.jsonGet(shaString)
+
+	if (result === null) {
+		// await execCronUsage(uuids, orgId, period)
+		await execCronBenchmark(uuids, orgId, period)
+		let result = await rClient.jsonGet(shaString)
+		res.status(200).json(result)
+	}
+	else {
+		res.status(200).json(result)
+	}
+})
 /**
  * @desc Get reading and store it in cache
  * @param req Request
